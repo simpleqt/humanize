@@ -79,9 +79,12 @@ def ordinal(value, gender="male"):
             P_("8 (female)", "th"),
             P_("9 (female)", "th"),
         )
-    if value % 100 in (11, 12, 13):  # special case
+    # Python's modulo keeps negative numbers out of the 0-9/11-13 ranges the
+    # suffix tables are indexed with, so select on the absolute value
+    n = abs(value)
+    if n % 100 in (11, 12, 13):  # special case
         return f"{value}{t[0]}"
-    return f"{value}{t[value % 10]}"
+    return f"{value}{t[n % 10]}"
 
 
 def intcomma(value, ndigits=None):
